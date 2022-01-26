@@ -9,7 +9,7 @@ describe('habit_presenter', () => {
   let presenter = null;
 
   beforeEach(() => {
-    presenter = new HabitPresenter(habits);
+    presenter = new HabitPresenter(habits, 3);
     jest.clearAllMocks();
   });
 
@@ -56,10 +56,18 @@ describe('habit_presenter', () => {
     checkUpdateIsCalled(1);
   });
 
-  it('resets all habit counts to 0', () => {
-    presenter.reset(update);
+  it('throws an error when the habits limit is exceeded', () => {
+    presenter.add('Learning', update);
 
-    expect(presenter.getHabits().every((habit) => habit.count === 0)).toBeTruthy();
+    expect(() => presenter.add('Exercise', update)).toThrow('count of habits cannot exceeds 3');
+  });
+
+  describe('reset', () => {
+    it('set all habit counts to 0', () => {
+      presenter.reset(update);
+
+      expect(presenter.getHabits().every((habit) => habit.count === 0)).toBeTruthy();
+    });
   });
 
   function checkUpdateIsCalled(times) {
