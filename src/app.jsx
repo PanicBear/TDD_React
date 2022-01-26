@@ -5,54 +5,18 @@ import './app.css';
 import Habits from './components/habits';
 import Navbar from './components/navbar';
 
-const App = () => {
-  const [habits, setHabits] = useState([
-    { id: 1, name: 'Reading', count: 0 },
-    { id: 2, name: 'Running', count: 0 },
-    { id: 3, name: 'Coding', count: 0 },
-  ]);
+const App = ({presenter}) => {
+  const [habits, setHabits] = useState(presenter.getHabits());
 
-  const handleIncrement = useCallback(habit => {
-    setHabits(habits =>
-      habits.map(item => {
-        if (item.id === habit.id) {
-          return { ...habit, count: habit.count + 1 };
-        }
-        return item;
-      })
-    );
-  }, []);
+  const handleIncrement = useCallback(habit => {presenter.increment(habit, setHabits)}, []);
 
-  const handleDecrement = useCallback(habit => {
-    setHabits(habits =>
-      habits.map(item => {
-        if (item.id === habit.id) {
-          const count = habit.count - 1;
-          return { ...habit, count: count < 0 ? 0 : count };
-        }
-        return item;
-      })
-    );
-  }, []);
+  const handleDecrement = useCallback(habit => {presenter.decrement(habit,setHabits)}, []);
 
-  const handleDelete = useCallback(habit => {
-    setHabits(habits => habits.filter(item => item.id !== habit.id));
-  }, []);
+  const handleDelete = useCallback(habit => {presenter.delete(habit,setHabits)}, []);
 
-  const handleAdd = useCallback(name => {
-    setHabits(habits => [...habits, { id: Date.now(), name, count: 0 }]);
-  }, []);
+  const handleAdd = useCallback(name => {presenter.add(name,setHabits)}, []);
 
-  const handleReset = useCallback(() => {
-    setHabits(habits =>
-      habits.map(habit => {
-        if (habit.count !== 0) {
-          return { ...habit, count: 0 };
-        }
-        return habit;
-      })
-    );
-  }, []);
+  const handleReset = useCallback(() => {presenter.reset(setHabits)}, []);
 
   return (
     <>
