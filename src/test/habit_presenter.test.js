@@ -68,6 +68,14 @@ describe('habit_presenter', () => {
 
       expect(presenter.getHabits().every((habit) => habit.count === 0)).toBeTruthy();
     });
+
+    it('does not create new object when count is zero', () => {
+      const habits = presenter.getHabits();
+      presenter.reset(update);
+      const updateHabits = presenter.getHabits();
+
+      expect(updateHabits[1]).toBe(habits[1]);
+    });
   });
 
   function checkUpdateIsCalled(times) {
