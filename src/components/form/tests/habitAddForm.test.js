@@ -1,9 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import renderer from 'react-test-renderer';
 import HabitAddForm from '../habitAddForm';
 
 describe('HabitAddForm', () => {
+  it('renders', () => {
+    const component = renderer.create(<HabitAddForm onAdd={jest.fn()} />);
+    expect(component.toJSON()).toMatchSnapshot();
+  });
+
   let onAdd;
   let input;
   let button;
