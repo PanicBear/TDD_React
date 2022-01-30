@@ -1,2 +1,8 @@
 node_modules/*
 coverage/*
+cypress/fixtures/*
+cypress/integration/1-getting-started/*
+cypress/integration/2-advanced-examples/*
+cypress/plugins/*
+cypress/screenshots/*
+cypress/support/* 
